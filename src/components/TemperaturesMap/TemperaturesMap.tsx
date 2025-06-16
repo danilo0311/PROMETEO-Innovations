@@ -7,30 +7,30 @@ import { fetchTemperatures } from '@/api/forecast';
 import L from 'leaflet';
 import { MapContainer } from 'react-leaflet/MapContainer';
 
-const greenIcon = new L.Icon({
-	iconUrl:
-		'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
-	iconSize: [25, 41],
-	iconAnchor: [12, 41],
-	popupAnchor: [1, -34],
-	shadowUrl:
-		'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
-	shadowSize: [41, 41],
-});
-
-const redIcon = new L.Icon({
-	iconUrl:
-		'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-red.png',
-	iconSize: [25, 41],
-	iconAnchor: [12, 41],
-	popupAnchor: [1, -34],
-	shadowUrl:
-		'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
-	shadowSize: [41, 41],
-});
-
-export const TemperatureMap = () => {
+export default function MapComponent() {
 	if (typeof window === 'undefined') return null;
+
+	const greenIcon = new L.Icon({
+		iconUrl:
+			'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
+		iconSize: [25, 41],
+		iconAnchor: [12, 41],
+		popupAnchor: [1, -34],
+		shadowUrl:
+			'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
+		shadowSize: [41, 41],
+	});
+
+	const redIcon = new L.Icon({
+		iconUrl:
+			'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-red.png',
+		iconSize: [25, 41],
+		iconAnchor: [12, 41],
+		popupAnchor: [1, -34],
+		shadowUrl:
+			'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
+		shadowSize: [41, 41],
+	});
 
 	const [temps, setTemps] = useState({});
 
@@ -58,15 +58,18 @@ export const TemperatureMap = () => {
 
 	return (
 		<MapContainer
-			center={[40.4168, -3.7038]}
-			zoom={6}
+			{...({
+				center: [40.4168, -3.7038],
+				zoom: 6,
+				style: { height: '100vh', width: '100%' },
+			} as unknown as React.ComponentProps<typeof MapContainer>)}
 			style={{ height: '100vh', width: '100%' }}>
 			<TileLayer url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png' />
 			{CITIES.map(({ name, lat, lon }) => {
 				const temp = temps[name];
 				const icon = temp > 25 ? redIcon : greenIcon;
 				return (
-					<Marker key={name} position={[lat, lon]} icon={icon}>
+					<Marker {...({ icon } as any)} key={name} position={[lat, lon]}>
 						<Popup>
 							<div>
 								<strong>{name}</strong>
@@ -79,4 +82,4 @@ export const TemperatureMap = () => {
 			})}
 		</MapContainer>
 	);
-};
+}
