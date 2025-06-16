@@ -1,4 +1,4 @@
-import { TemperatureMap } from '@/components/TemperaturesMap/TemperaturesMap';
+import { TemperatureMap } from "@/components/TemperaturesMap/MapComponent";
 
 export default async function ModuleTwo() {
 	return (
