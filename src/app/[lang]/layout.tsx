@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import '@/assets/globals.css';
+import { NextIntlClientProvider } from 'next-intl';
 
 const geistSans = Geist({
 	variable: '--font-geist-sans',
@@ -17,16 +18,20 @@ export const metadata: Metadata = {
 	description: 'Technical test for Prometeo Innova',
 };
 
-export default function RootLayout({
-	children,
-}: Readonly<{
+export default async function RootLayout(props: {
 	children: React.ReactNode;
-}>) {
+	params: Promise<{ lang: string }>;
+}) {
+	const { params, children } = props;
+	const { lang } = await params;
+
 	return (
 		<html lang='en'>
 			<body
 				className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-				{children}
+				<NextIntlClientProvider locale={lang} timeZone='Europe/Madrid'>
+					{children}
+				</NextIntlClientProvider>
 			</body>
 		</html>
 	);
