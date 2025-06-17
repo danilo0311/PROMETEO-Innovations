@@ -1,10 +1,20 @@
 'use client';
 
+import { formatOpenMeteoData } from '@/lib/utils';
+import { WeatherInterface } from '@/types/temperatures-interface';
 import React, { useState } from 'react';
-import { ComposableMap, Geographies, Geography } from 'react-simple-maps';
+import {
+	ComposableMap,
+	Geographies,
+	Geography,
+	Marker,
+} from 'react-simple-maps';
 
-export default function SpanishMap() {
+export default function SpanishMap({ data }: { data: WeatherInterface[] }) {
 	const [hoveredRegion, setHoveredRegion] = useState<string | null>(null);
+	const [selectedCity, setSelectedCity] = useState<string | null>(null);
+
+	const formatted = formatOpenMeteoData(data);
 
 	return (
 		<>
@@ -23,13 +33,6 @@ export default function SpanishMap() {
 									geo.properties.name === hoveredRegion ? '#FFA726' : '#DDD'
 								}
 								stroke='#FFF'
-								onClick={() =>
-									console.log(`Has hecho click en: ${geo.properties.name}`)
-								}
-								onMouseEnter={() => {
-									setHoveredRegion(geo.properties.name);
-									console.log(geo.properties.name);
-								}}
 								onMouseLeave={() => setHoveredRegion(null)}
 								style={{
 									default: { outline: 'none' },
@@ -40,11 +43,34 @@ export default function SpanishMap() {
 						))
 					}
 				</Geographies>
-			</ComposableMap>
+				{formatted.map(({ city, coordinates, temperature }) => {
+					const latestTemp = temperature[temperature.length - 1];
+					const isAlarm = latestTemp > 25;
 
+					return (
+						<Marker key={city} coordinates={coordinates}>
+							<circle
+								r={6}
+								fill={isAlarm ? 'red' : 'green'}
+								stroke='#fff'
+								strokeWidth={1}
+								onClick={() => setSelectedCity(`${city}: ${latestTemp}°C`)}
+								onMouseEnter={() => setHoveredRegion(city)}
+								onMouseLeave={() => setHoveredRegion(null)}
+								style={{ cursor: 'pointer' }}
+							/>
+						</Marker>
+					);
+				})}
+			</ComposableMap>
+			{selectedCity && (
+				<div className='absolute top-2.5 right-2.5 text-black'>
+					🔍 {selectedCity}
+				</div>
+			)}
 			{hoveredRegion && (
-				<div style={{ position: 'absolute', top: 10, left: 10 }}>
-					Región: {hoveredRegion}
+				<div className='absolute bottom-2.5 left-2.5 text-black'>
+					Región/Ciudad: {hoveredRegion}
 				</div>
 			)}
 		</>
