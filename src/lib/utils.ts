@@ -3,7 +3,7 @@ import {
 	CityFormattedInterface,
 	TemperatureRecord,
 	WeatherInterface,
-} from '@/types/temperatures-interface';
+} from '@/types/weather/interface';
 
 export function formatOpenMeteoData(
 	data: WeatherInterface[],
