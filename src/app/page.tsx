@@ -4,7 +4,7 @@ import SpanishMap from '@/components/SpanishMap/SpanishMap';
 import TemperatureTable from '@/components/TemperatureTable/TemperatureTable';
 import { WeatherInterface } from '@/types/temperatures-interface';
 
-export default async function ModuleOne() {
+export default async function Main() {
 	const data: WeatherInterface[] = await fetchTemperatures();
 
 	return (
