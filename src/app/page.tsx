@@ -9,7 +9,7 @@ export default async function ModuleOne() {
 
 	return (
 		<div className='min-h-screen w-full flex justify-center gap-4 py-16'>
-			<div className='flex w-max max-w-[68.5rem] items-center flex-col gap-y-4'>
+			<div className='flex w-full max-w-[68.5rem] items-center flex-col gap-y-4'>
 				<div className='w-full bg-gray-100 border-solid border-1 rounded-2xl'>
 					<BarTemperatures data={data}></BarTemperatures>
 				</div>
