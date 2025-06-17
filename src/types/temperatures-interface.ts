@@ -32,3 +32,9 @@ export type BarChartEntry = {
 	time: string;
 	[city: string]: string | number;
 };
+
+export interface TemperatureRecord {
+  city: string;
+  time: string;
+  temperature: number;
+}
