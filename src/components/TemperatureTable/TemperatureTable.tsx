@@ -1,17 +1,20 @@
-'use client'
+'use client';
 
+import { useWeatherStateContext } from '@/contexts/WeatherStateContext';
 import { formatOpenMeteoData } from '@/lib/utils';
-import { WeatherInterface } from '@/types/temperatures-interface';
-import React, { useState } from 'react';
+import React from 'react';
 
-export default function TemperatureTable({
-	data,
-}: {
-	data: WeatherInterface[];
-}) {
-	const formatted = formatOpenMeteoData(data);
-	const [selectedCity, setSelectedCity] = useState<string>('all');
-	const [onlyAlarms, setOnlyAlarms] = useState<boolean>(false);
+export default function TemperatureTable() {
+	const {
+		weatherData,
+		onlyAlarms,
+		setOnlyAlarms,
+		selectedCity,
+		setSelectedCity,
+	} = useWeatherStateContext();
+	if (!weatherData) return null;
+
+	const formatted = formatOpenMeteoData(weatherData);
 	const cities = Array.from(new Set(formatted.map((d) => d.city)));
 
 	const filteredData = formatted
@@ -71,8 +74,7 @@ export default function TemperatureTable({
 						<tr
 							key={idx}
 							style={{
-								color:
-									record.temperature > 25 ? '#f88' : '#000000',
+								color: record.temperature > 25 ? '#f88' : '#000000',
 							}}>
 							<td>{record.city}</td>
 							<td>{record.time}</td>

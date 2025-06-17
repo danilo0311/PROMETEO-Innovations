@@ -1,8 +1,8 @@
 'use client';
 
+import { useWeatherStateContext } from '@/contexts/WeatherStateContext';
 import { formatOpenMeteoData } from '@/lib/utils';
-import { WeatherInterface } from '@/types/temperatures-interface';
-import React, { useState } from 'react';
+import React from 'react';
 import {
 	ComposableMap,
 	Geographies,
@@ -10,11 +10,17 @@ import {
 	Marker,
 } from 'react-simple-maps';
 
-export default function SpanishMap({ data }: { data: WeatherInterface[] }) {
-	const [hoveredRegion, setHoveredRegion] = useState<string | null>(null);
-	const [selectedCity, setSelectedCity] = useState<string | null>(null);
+export default function SpanishMap() {
+	const {
+		weatherData,
+		selectedCityMap,
+		setSelectedCityMap,
+		hoveredRegion,
+		setHoveredRegion,
+	} = useWeatherStateContext();
+	if (!weatherData) return null;
 
-	const formatted = formatOpenMeteoData(data);
+	const formatted = formatOpenMeteoData(weatherData);
 
 	return (
 		<>
@@ -54,7 +60,7 @@ export default function SpanishMap({ data }: { data: WeatherInterface[] }) {
 								fill={isAlarm ? 'red' : 'green'}
 								stroke='#fff'
 								strokeWidth={1}
-								onClick={() => setSelectedCity(`${city}: ${latestTemp}°C`)}
+								onClick={() => setSelectedCityMap(`${city}: ${latestTemp}°C`)}
 								onMouseEnter={() => setHoveredRegion(city)}
 								onMouseLeave={() => setHoveredRegion(null)}
 								style={{ cursor: 'pointer' }}
@@ -63,9 +69,9 @@ export default function SpanishMap({ data }: { data: WeatherInterface[] }) {
 					);
 				})}
 			</ComposableMap>
-			{selectedCity && (
+			{selectedCityMap && (
 				<div className='absolute top-2.5 right-2.5 text-black'>
-					🔍 {selectedCity}
+					🔍 {selectedCityMap}
 				</div>
 			)}
 			{hoveredRegion && (

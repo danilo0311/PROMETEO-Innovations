@@ -2,8 +2,8 @@
 
 import * as React from 'react';
 import { BarChart } from '@mui/x-charts/BarChart';
-import { WeatherInterface } from '@/types/temperatures-interface';
 import { buildBarChartDataset, formatOpenMeteoData } from '@/lib/utils';
+import { useWeatherStateContext } from '@/contexts/WeatherStateContext';
 
 function valueFormatter(value: number | null) {
 	return `${value} Cº`;
@@ -19,12 +19,12 @@ const chartSetting = {
 	height: 300,
 };
 
-export default function BarTemperatures({
-	data,
-}: {
-	data: WeatherInterface[];
-}) {
-	const formatted = formatOpenMeteoData(data);
+export default function BarTemperatures() {
+	const { weatherData } = useWeatherStateContext();
+
+	if (!weatherData) return null;
+
+	const formatted = formatOpenMeteoData(weatherData);
 	const dataset = buildBarChartDataset(formatted);
 	const cities = formatted.map((c) => c.city);
 
