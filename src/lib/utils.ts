@@ -9,10 +9,10 @@ export function formatOpenMeteoData(
 ): CityFormattedInterface[] {
 	const cityCoordsMap: Record<string, string> = {
 		'40.4375,-3.6875': 'Madrid',
-		'41.3784,2.1925': 'Barcelona',
-		'39.4699,-0.3763': 'Valencia',
-		'43.263,-2.934': 'Bilbao',
-		'41.6488,-0.8891': 'Zaragoza',
+		'41.3125,2.125': 'Barcelona',
+		'39.5,-0.375': 'Valencia',
+		'43.26,-2.9300003': 'Bilbao',
+		'41.625,-0.875': 'Zaragoza',
 	};
 
 	return data.map((entry) => {
