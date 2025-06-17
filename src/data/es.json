@@ -1,0 +1,8 @@
+{
+	"region": "Región",
+	"city": "Ciudad",
+	"all": "Todas",
+	"hour": "Hora",
+	"temperature": "Temperatura",
+	"only_warnings": "Sólo alarmas"
+}
