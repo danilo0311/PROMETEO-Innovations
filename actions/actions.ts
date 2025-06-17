@@ -1,3 +1,5 @@
+'use server';
+
 import { OPEN_METEO_ENDPOINT } from '@/constants/constants';
 
 export const fetchTemperatures = async () => {
