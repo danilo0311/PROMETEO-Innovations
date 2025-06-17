@@ -11,8 +11,8 @@ export default async function ModuleOne() {
 			<div className='max-w-[68.5rem] w-full bg-gray-100 border-solid border-1 rounded-2xl'>
 				<BarTemperatures data={data}></BarTemperatures>
 			</div>
-			<div className='h-2/4 w-2/4 bg-gray-100 border-solid border-1 rounded-2xl overflow-hidden'>
-				<SpanishMap></SpanishMap>
+			<div className='h-2/4 w-2/4 bg-gray-100 border-solid border-1 rounded-2xl overflow-hidden relative'>
+				<SpanishMap data={data}></SpanishMap>
 			</div>
 		</div>
 	);
