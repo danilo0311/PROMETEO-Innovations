@@ -25,6 +25,7 @@ export interface CityFormattedInterface {
 	city: string;
 	time: string[];
 	temperature: number[];
+	coordinates: [number, number];
 }
 
 export type BarChartEntry = {
