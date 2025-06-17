@@ -5,26 +5,28 @@ import {
 } from '@/types/temperatures-interface';
 
 export function formatOpenMeteoData(
-	data: WeatherInterface[],
+  data: WeatherInterface[],
 ): CityFormattedInterface[] {
-	const cityCoordsMap: Record<string, string> = {
-		'40.4375,-3.6875': 'Madrid',
-		'41.3125,2.125': 'Barcelona',
-		'39.5,-0.375': 'Valencia',
-		'43.26,-2.9300003': 'Bilbao',
-		'41.625,-0.875': 'Zaragoza',
-	};
+ 
+  const cityCoordsMap: Record<string, string> = {
+    '-3.6875,40.4375': 'Madrid',
+    '2.125,41.3125': 'Barcelona',
+    '-0.375,39.5': 'Valencia',
+    '-2.9300003,43.26': 'Bilbao',
+    '-0.875,41.625': 'Zaragoza',
+  };
 
-	return data.map((entry) => {
-		const key = `${entry.latitude},${entry.longitude}`;
-		const city = cityCoordsMap[key] || 'Unknown';
+  return data.map((entry) => {
+    const key = `${entry.longitude},${entry.latitude}`;
+    const city = cityCoordsMap[key] || 'Unknown';
 
-		return {
-			city,
-			time: entry.minutely_15.time,
-			temperature: entry.minutely_15.temperature_2m,
-		};
-	});
+    return {
+      city,
+      time: entry.minutely_15.time,
+      temperature: entry.minutely_15.temperature_2m,
+      coordinates: [entry.longitude, entry.latitude],
+    };
+  });
 }
 
 export function buildBarChartDataset(
