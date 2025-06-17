@@ -4,26 +4,27 @@ import * as React from 'react';
 import { BarChart } from '@mui/x-charts/BarChart';
 import { buildBarChartDataset, formatOpenMeteoData } from '@/lib/utils';
 import { useWeatherStateContext } from '@/contexts/WeatherStateContext';
+import { useTranslations } from 'next-intl';
 
 function valueFormatter(value: number | null) {
 	return `${value} Cº`;
 }
 
-const chartSetting = {
-	yAxis: [
-		{
-			label: 'Temperaturas (Cº)',
-			width: 60,
-		},
-	],
-	height: 300,
-};
-
 export default function BarTemperatures() {
 	const { weatherData } = useWeatherStateContext();
+	const t = useTranslations('');
 
-	if (!weatherData) return null;
+	if (!weatherData || !t) return null;
 
+	const chartSetting = {
+		yAxis: [
+			{
+				label: `${t('temperature')}s (Cº)`,
+				width: 60,
+			},
+		],
+		height: 300,
+	};
 	const formatted = formatOpenMeteoData(weatherData);
 	const dataset = buildBarChartDataset(formatted);
 	const cities = formatted.map((c) => c.city);

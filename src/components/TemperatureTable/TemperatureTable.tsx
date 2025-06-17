@@ -2,6 +2,7 @@
 
 import { useWeatherStateContext } from '@/contexts/WeatherStateContext';
 import { formatOpenMeteoData } from '@/lib/utils';
+import { useTranslations } from 'next-intl';
 import React from 'react';
 
 export default function TemperatureTable() {
@@ -12,7 +13,9 @@ export default function TemperatureTable() {
 		selectedCity,
 		setSelectedCity,
 	} = useWeatherStateContext();
-	if (!weatherData) return null;
+	const t = useTranslations();
+
+	if (!weatherData || !t) return null;
 
 	const formatted = formatOpenMeteoData(weatherData);
 	const cities = Array.from(new Set(formatted.map((d) => d.city)));
@@ -35,11 +38,11 @@ export default function TemperatureTable() {
 		<div className='text-black px-4'>
 			<div>
 				<label>
-					Ciudad:
+					<span>{t('city')}</span>:
 					<select
 						value={selectedCity}
 						onChange={(e) => setSelectedCity(e.target.value)}>
-						<option value='all'>Todas</option>
+						<option value='all'>{t('all')}</option>
 						{cities.map((city) => (
 							<option key={city} value={city}>
 								{city}
@@ -48,7 +51,7 @@ export default function TemperatureTable() {
 					</select>
 				</label>
 				<label style={{ marginLeft: '1rem' }}>
-					Sólo alarmas (25º):
+					{t('only_warnings')} (25º):
 					<input
 						type='checkbox'
 						checked={onlyAlarms}
@@ -64,9 +67,9 @@ export default function TemperatureTable() {
 				}}>
 				<thead>
 					<tr>
-						<th>Ciudad</th>
-						<th>Hora</th>
-						<th>Temperatura (ºC)</th>
+						<th>{t('city')}</th>
+						<th>{t('hour')}</th>
+						<th>{t('temperature')} (ºC)</th>
 					</tr>
 				</thead>
 				<tbody className='w-full'>

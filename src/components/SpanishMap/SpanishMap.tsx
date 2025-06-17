@@ -2,6 +2,7 @@
 
 import { useWeatherStateContext } from '@/contexts/WeatherStateContext';
 import { formatOpenMeteoData } from '@/lib/utils';
+import { useTranslations } from 'next-intl';
 import React from 'react';
 import {
 	ComposableMap,
@@ -18,7 +19,9 @@ export default function SpanishMap() {
 		hoveredRegion,
 		setHoveredRegion,
 	} = useWeatherStateContext();
-	if (!weatherData) return null;
+	const t = useTranslations('');
+
+	if (!weatherData || !t) return null;
 
 	const formatted = formatOpenMeteoData(weatherData);
 
@@ -76,7 +79,7 @@ export default function SpanishMap() {
 			)}
 			{hoveredRegion && (
 				<div className='absolute bottom-2.5 left-2.5 text-black'>
-					Región/Ciudad: {hoveredRegion}
+					<span>{`${t('region')}/${t('city')}`}</span>: {hoveredRegion}
 				</div>
 			)}
 		</>
